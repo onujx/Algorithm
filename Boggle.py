@@ -4,7 +4,7 @@ seen = set()
 
 
 def find(board, y, x, word, s):
-    if (y, x, s) in seen: return False  # 만약 해당되는 값이 없는 경우 종료
+    if (y, x, s) in seen: return False  
     seen.add((y, x, s))
     if s == len(word): return True
     if not (0 <= y < 5 and 0 <= x < 5): return False
